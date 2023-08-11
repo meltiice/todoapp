@@ -1,23 +1,31 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-//import Task from './components/task'
-import TaskList from "./components/taskList";
-import NewTaskForm from "./components/newTaskForm";
-import Footer from "./components/footer";
 
-const App = () => {
- 
-  return (
-    <section className="main">
-      <NewTaskForm />
-      <TaskList />
-      <Footer />
-    </section>
-  );
-};
-const container = document.querySelector(".todoapp");
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+import App from "./components/app";
+
+const root = createRoot(document.querySelector(".todoapp"));
 root.render(<App />);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*import AppHeader from './components/todo-appheader';
 import SearchPanel from './components/todo-search-panel';
