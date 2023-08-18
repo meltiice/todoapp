@@ -1,28 +1,35 @@
 import React, { Component } from "react";
 import Task from "../task/task";
+import PropTypes from 'prop-types';
 
 class TaskList extends Component {
-  /*
-  state = {
-    currentEditingLabel: ''
+  static defaultProps = {
+    toDos: [], 
+    onDeleted: () => {}, 
+    onEditing: () => {}, 
+    onToggleDone: () => {}
   }
-
-  onLabelChange = (e) => {
-    console.log(e.target);
-    this.setState({
-      currentEditingLabel: e.target.value
-   })
- }*/
+  static propTypes = {
+    toDos: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      label: PropTypes.string,
+      editing: PropTypes.bool, 
+      done: PropTypes.bool,
+      createdTime: PropTypes.number
+    })), 
+    onDeleted: PropTypes.func, 
+    onEditing: PropTypes.func, 
+    onToggleDone: PropTypes.func
+ }
   render() {
-    const {todos, onDeleted, onEditing, onToggleDone, onItemSave} = this.props
-    const elements = todos.map((item) => {
+    const {toDos, onDeleted, onEditing, onToggleDone} = this.props
+    const elements = toDos.map((item) => {
       return (
           <Task key = {item.id}
             { ...item }
             onDeleted = {()=> onDeleted(item.id)}
             onEditing = {onEditing}
             onToggleDone = {() => onToggleDone(item.id)}
-            onItemSave = {() => onItemSave(item.id)}
           />
       )
     })

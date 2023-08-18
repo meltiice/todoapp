@@ -7,13 +7,13 @@ import Footer from "../footer";
 class App extends Component {
 
   maxId = 100;
-
   createToDoItem = (label) => {
     return {
       id: this.maxId++,
       label: label,
       editing: false, 
-      done: false
+      done: false,
+      createdTime: Date.now()
     }
   }
   state = {
@@ -123,28 +123,16 @@ class App extends Component {
       }
     })
   };
-  /*
-  onItemSave = (id, newLabel) => {
-    this.setState(({todoData}) => {
-      const idx = todoData.findIndex(el => el.id === id);
-      const newItem = {...todoData[idx], label: newLabel};
-      return { 
-      }
-    })
-  }*/
-  onSave = (id, listener) => {
-    console.log('onsave')
-  }
   render () {
-    const {todoData} = this.state
-    const doneCount = todoData.filter(el => el.done).length;
-    const todoCount = todoData.length - doneCount;
+    const {todoData, hiddenData} = this.state
+    const doneCount = todoData.filter(el => el.done).length + hiddenData.filter(el => el.done).length;
+    const todoCount = todoData.length + hiddenData.length - doneCount;
 
     return (
       <section className="main">
         <NewTaskForm onItemAdded = {this.addItem} />
         <TaskList 
-          todos = {todoData}
+          toDos = {todoData}
           onDeleted = {this.deleteItem}
           onEditing = {this.onEditing}
           onToggleDone = {this.onToggleDone}

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import TaskFilter from "../taskFilter";
 
 const Footer = ({toDo, deleteCompleted, changeState}) => {
@@ -10,5 +11,14 @@ const Footer = ({toDo, deleteCompleted, changeState}) => {
     </footer>
   );
 };
-
+Footer.defaultProps = {
+  toDo: 0,
+  deleteCompleted: () => {},
+  changeState: () => {}
+}
+Footer.propTypes = {
+  toDo: PropTypes.number,
+  deleteCompleted: PropTypes.func,
+  changeState: PropTypes.func
+}
 export default Footer;

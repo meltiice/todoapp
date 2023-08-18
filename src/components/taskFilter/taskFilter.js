@@ -1,20 +1,27 @@
-import React, {Component} from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 
-export default class TaskFilter extends Component {
-   render () {
-      const {changeState} = this.props;
-      return (
-         <ul className="filters">
-            <li>
-               <button onClick={changeState}>All</button>
-            </li>
-            <li>
-               <button onClick={changeState}>Active</button>
-            </li>
-            <li>
-               <button onClick={changeState}>Completed</button>
-            </li>
-         </ul>
-      )
-   }
+const TaskFilter = ({changeState}) => {
+   return (
+      <ul className="filters">
+         <li>
+            <button onClick={changeState}>All</button>
+         </li>
+         <li>
+            <button onClick={changeState}>Active</button>
+         </li>
+         <li>
+            <button onClick={changeState}>Completed</button>
+         </li>
+      </ul>
+   )
 }
+
+TaskFilter.defaultProps = {
+   changeState: () => {}
+}
+TaskFilter.propTypes = {
+   changeState: PropTypes.func
+}
+
+export default TaskFilter;
