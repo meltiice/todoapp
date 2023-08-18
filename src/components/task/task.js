@@ -1,53 +1,55 @@
 import React, {Component} from "react";
 
 export default class Task extends Component {
-   /*
-   onTaskClick = () => {
-      this.setState (({ done })=> {
-         return {
-            done: !done
-         }
-      });
-   }
-   onEditing = () => {
-      this.setState(({ editing }) => {
-         return {
-            editing: !editing
-         }
-      });
-   }*/
-   
-   handleChange = (event) => {
-      this.setState({label: event.target.value});
-      event.target.addEventListener( 'keyup', event => {
-         event.preventDefault();
-         //console.log(1);
-         console.log(event.code);
-         if( event.code === 'Enter' ) {
-            this.setState({editing: false, label: event.target.value});
-         };
-       });
-    }
-   render () {
-      const { label, editing, onDeleted, onEditing, onToggleDone} = this.props
-      let styleTask = "display: none";
-      if (editing) {
-         styleTask = "display: block"
-      }
-      console.log(styleTask);
 
+   state = {
+      label: this.props.label
+   }
+
+   onLabelChange = (e) => {
+      this.setState({
+         label: e.target.value
+      })
+      
+   }
+   
+   onSubmit = (e) => {
+      e.preventDefault();
+      if (e.key === 'Enter') {
+         this.props.onEditing.call(this, this.props.id, this.state.label)
+      }
+   }
+
+   render () {
+      const { id, editing, done, onDeleted, onEditing, onToggleDone} = this.props;
+      let classNames = '';  
+      if (done) {
+         classNames += ' completed';
+        }
+        if (editing) {
+         classNames += ' editing'
+        }
       return (
+         <li className={classNames}>
          <div className = "view">
             <input className="toggle" type="checkbox"/>
             <label onClick={onToggleDone}>
-               <span className="description">{ label }</span>
+               <span className="description">{ this.state.label }</span>
                <span className="created">created 17 seconds ago</span>
             </label>
-            <button className="icon icon-edit" onClick={onEditing}></button>
+            <button className="icon icon-edit" onClick={onEditing.bind(this, id, this.state.label)}></button>
             <button className="icon icon-destroy" onClick={onDeleted}></button>
-            <input type="text" className="edit" value={ label } onChange={onEditing}></input>
          </div>
-
+         
+         <input type="text" className="edit" value={ this.state.label } onKeyUp={this.onSubmit} onChange={this.onLabelChange}></input>
+         
+         </li>
       );
    }
 };
+
+/*
+<form onSubmit={this.onSubmit}>
+         <input type="text" className="edit" value={ this.state.label } onChange={this.onLabelChange} ></input>
+         </form>
+*/

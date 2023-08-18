@@ -2,16 +2,17 @@ import React, {Component} from "react";
 
 export default class TaskFilter extends Component {
    render () {
+      const {changeState} = this.props;
       return (
          <ul className="filters">
             <li>
-               <button className="selected">All</button>
+               <button onClick={changeState}>All</button>
             </li>
             <li>
-               <button>Active</button>
+               <button onClick={changeState}>Active</button>
             </li>
             <li>
-               <button>Completed</button>
+               <button onClick={changeState}>Completed</button>
             </li>
          </ul>
       )
