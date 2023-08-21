@@ -22,6 +22,7 @@ class App extends Component {
       this.createToDoItem('Test task 3'),
     ],
     hiddenData: [],
+    taskState: 'All',
   };
 
   changeState = (event) => {
@@ -35,6 +36,7 @@ class App extends Component {
           return {
             todoData: visible,
             hiddenData: hidden,
+            taskState: 'Completed',
           };
         });
         break;
@@ -47,6 +49,7 @@ class App extends Component {
           return {
             todoData: visible,
             hiddenData: hidden,
+            taskState: 'Active',
           };
         });
         break;
@@ -57,6 +60,7 @@ class App extends Component {
           return {
             todoData: allData,
             hiddenData: [],
+            taskState: 'All',
           };
         });
         break;
@@ -96,10 +100,12 @@ class App extends Component {
   };
 
   deleteCompleted = () => {
-    this.setState(({ todoData }) => {
+    this.setState(({ todoData, hiddenData }) => {
       const newArr = todoData.filter((el) => el.done === false);
+      const newHidden = hiddenData.filter((el) => el.done === false);
       return {
         todoData: newArr,
+        hiddenData: newHidden
       };
     });
   };
@@ -117,11 +123,10 @@ class App extends Component {
   };
 
   render() {
-    const { todoData, hiddenData } = this.state;
+    const { todoData, hiddenData, taskState } = this.state;
     const doneCount = todoData.filter((el) => el.done).length
       + hiddenData.filter((el) => el.done).length;
     const todoCount = todoData.length + hiddenData.length - doneCount;
-
     return (
       <section className="main">
         <NewTaskForm onItemAdded={this.addItem} />
@@ -134,6 +139,7 @@ class App extends Component {
         />
         <Footer
           toDo={todoCount}
+          taskState={taskState}
           deleteCompleted={this.deleteCompleted}
           changeState={this.changeState}
         />
