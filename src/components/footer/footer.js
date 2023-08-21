@@ -1,6 +1,6 @@
 // import React from 'react';
-import PropTypes from "prop-types";
-import TaskFilter from "../taskFilter";
+import PropTypes from 'prop-types';
+import TaskFilter from '../taskFilter';
 
 function Footer({ toDo, deleteCompleted, changeState }) {
   return (

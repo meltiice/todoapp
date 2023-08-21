@@ -1,8 +1,8 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import TaskList from "../taskList";
-import NewTaskForm from "../newTaskForm";
-import Footer from "../footer";
+import TaskList from '../taskList';
+import NewTaskForm from '../newTaskForm';
+import Footer from '../footer';
 
 class App extends Component {
   id = 100;
@@ -17,9 +17,9 @@ class App extends Component {
 
   state = {
     todoData: [
-      this.createToDoItem("Test task 1"),
-      this.createToDoItem("Test task 2"),
-      this.createToDoItem("Test task 3"),
+      this.createToDoItem('Test task 1'),
+      this.createToDoItem('Test task 2'),
+      this.createToDoItem('Test task 3'),
     ],
     hiddenData: [],
   };
@@ -27,7 +27,7 @@ class App extends Component {
   changeState = (event) => {
     const target = event.target.innerHTML;
     switch (target) {
-      case "Completed":
+      case 'Completed':
         this.setState(({ todoData, hiddenData }) => {
           const allData = [...todoData, ...hiddenData];
           const hidden = allData.filter((el) => el.done === false);
@@ -39,7 +39,7 @@ class App extends Component {
         });
         break;
 
-      case "Active": // if (x === 'value2')
+      case 'Active': // if (x === 'value2')
         this.setState(({ todoData, hiddenData }) => {
           const allData = [...todoData, ...hiddenData];
           const hidden = allData.filter((el) => el.done === true);
@@ -53,9 +53,7 @@ class App extends Component {
 
       default:
         this.setState(({ todoData, hiddenData }) => {
-          const allData = [...todoData, ...hiddenData].sort((a, b) =>
-            a.id > b.id ? 1 : -1,
-          );
+          const allData = [...todoData, ...hiddenData].sort((a, b) => (a.id > b.id ? 1 : -1),);
           return {
             todoData: allData,
             hiddenData: [],
@@ -108,21 +106,20 @@ class App extends Component {
 
   onEditing = (id, label) => {
     this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, "editing", label),
+      todoData: this.toggleProperty(todoData, id, 'editing', label),
     }));
   };
 
   onToggleDone = (id) => {
     this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, "done"),
+      todoData: this.toggleProperty(todoData, id, 'done'),
     }));
   };
 
   render() {
     const { todoData, hiddenData } = this.state;
-    const doneCount =
-      todoData.filter((el) => el.done).length +
-      hiddenData.filter((el) => el.done).length;
+    const doneCount = todoData.filter((el) => el.done).length
+      + hiddenData.filter((el) => el.done).length;
     const todoCount = todoData.length + hiddenData.length - doneCount;
 
     return (

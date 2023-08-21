@@ -23,7 +23,8 @@
     "lint:one": "eslint ./src/components/taskList",
     "lint:one:fix": "eslint ./src/components/taskList --fix",
     "format": "prettier --write ./src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": [
@@ -49,9 +50,9 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npm run lint:fix",
-      "git add"
+    "./src/*.js": [
+      "npm run format",
+      "npm run lint:fix"
     ]
   },
   "devDependencies": {
@@ -68,8 +69,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-typescript": "^0.14.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^14.0.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.2"
   }
 }

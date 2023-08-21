@@ -1,11 +1,11 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import { formatDistanceToNow } from "date-fns";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns';
 
 export default class Task extends Component {
   static defaultProps = {
     id: Date.now(),
-    label: "",
+    label: '',
     editing: false,
     done: false,
     createdTime: 0,
@@ -37,7 +37,7 @@ export default class Task extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.props.onEditing.call(this, this.props.id, this.state.label);
     }
   };
@@ -52,12 +52,12 @@ export default class Task extends Component {
       onEditing,
       onToggleDone,
     } = this.props;
-    let classNames = "";
+    let classNames = '';
     if (done) {
-      classNames += " completed";
+      classNames += ' completed';
     }
     if (editing) {
-      classNames += " editing";
+      classNames += ' editing';
     }
 
     const date = formatDistanceToNow(new Date().setTime(createdTime), {

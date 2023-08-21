@@ -1,6 +1,6 @@
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
-import App from "./components/app";
+import App from './components/app';
 
-const root = createRoot(document.querySelector(".todoapp"));
+const root = createRoot(document.querySelector('.todoapp'));
 root.render(<App />);
