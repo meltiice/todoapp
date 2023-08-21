@@ -1,27 +1,25 @@
-import React from "react";
-import PropTypes from 'prop-types';
+// import React from 'react';
+import PropTypes from "prop-types";
 
-const TaskFilter = ({changeState}) => {
-   return (
-      <ul className="filters">
-         <li>
-            <button onClick={changeState}>All</button>
-         </li>
-         <li>
-            <button onClick={changeState}>Active</button>
-         </li>
-         <li>
-            <button onClick={changeState}>Completed</button>
-         </li>
-      </ul>
-   )
-}
+const TaskFilter = ({ changeState }) => (
+  <ul className="filters">
+    <li>
+      <button onClick={changeState}>All</button>
+    </li>
+    <li>
+      <button onClick={changeState}>Active</button>
+    </li>
+    <li>
+      <button onClick={changeState}>Completed</button>
+    </li>
+  </ul>
+);
 
 TaskFilter.defaultProps = {
-   changeState: () => {}
-}
+  changeState: () => {},
+};
 TaskFilter.propTypes = {
-   changeState: PropTypes.func
-}
+  changeState: PropTypes.func,
+};
 
 export default TaskFilter;

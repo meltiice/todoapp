@@ -1,45 +1,43 @@
-import React, { Component } from "react";
+import { Component } from "react";
+import PropTypes from "prop-types";
 import Task from "../task/task";
-import PropTypes from 'prop-types';
 
 class TaskList extends Component {
   static defaultProps = {
-    toDos: [], 
-    onDeleted: () => {}, 
-    onEditing: () => {}, 
-    onToggleDone: () => {}
-  }
+    toDos: [],
+    onDeleted: () => {},
+    onEditing: () => {},
+    onToggleDone: () => {},
+  };
+
   static propTypes = {
-    toDos: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      label: PropTypes.string,
-      editing: PropTypes.bool, 
-      done: PropTypes.bool,
-      createdTime: PropTypes.number
-    })), 
-    onDeleted: PropTypes.func, 
-    onEditing: PropTypes.func, 
-    onToggleDone: PropTypes.func
- }
+    toDos: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        label: PropTypes.string,
+        editing: PropTypes.bool,
+        done: PropTypes.bool,
+        createdTime: PropTypes.number,
+      }),
+    ),
+    onDeleted: PropTypes.func,
+    onEditing: PropTypes.func,
+    onToggleDone: PropTypes.func,
+  };
+
   render() {
-    const {toDos, onDeleted, onEditing, onToggleDone} = this.props
-    const elements = toDos.map((item) => {
-      return (
-          <Task key = {item.id}
-            { ...item }
-            onDeleted = {()=> onDeleted(item.id)}
-            onEditing = {onEditing}
-            onToggleDone = {() => onToggleDone(item.id)}
-          />
-      )
-    })
-    return (
-      <ul className="todo-list">
-        {elements}
-      </ul>
-    );
+    const { toDos, onDeleted, onEditing, onToggleDone } = this.props;
+    const elements = toDos.map((item) => (
+      <Task
+        key={item.id}
+        {...item}
+        onDeleted={() => onDeleted(item.id)}
+        onEditing={onEditing}
+        onToggleDone={() => onToggleDone(item.id)}
+      />
+    ));
+    return <ul className="todo-list">{elements}</ul>;
   }
-  
-};
+}
 
 export default TaskList;
