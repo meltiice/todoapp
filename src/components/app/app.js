@@ -23,7 +23,7 @@ class App extends Component {
     ],
     hiddenData: [],
   };
-  pip = () => {}
+  pip = ()
   changeState = (event) => {
     const target = event.target.innerHTML;
     switch (target) {
