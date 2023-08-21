@@ -4,7 +4,7 @@
       "es6": true,
       "node": true
    },
-   "extends": ["airbnb/base", "plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:react-hooks/recommended","eslint:recommended"],
+   "extends": ["plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:react-hooks/recommended","eslint:recommended"],
    "rules": {
       "no-plusplus": "off",
       "comma-dangle": 0,
