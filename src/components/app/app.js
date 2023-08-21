@@ -14,7 +14,7 @@ class App extends Component {
     done: false,
     createdTime: Date.now(),
   });
-  
+
   state = {
     todoData: [
       this.createToDoItem("Test task 1"),
@@ -23,7 +23,7 @@ class App extends Component {
     ],
     hiddenData: [],
   };
-
+  pip = () => {}
   changeState = (event) => {
     const target = event.target.innerHTML;
     switch (target) {
