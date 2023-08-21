@@ -23,7 +23,7 @@
     "lint:one": "eslint ./src/components/taskList",
     "lint:one:fix": "eslint ./src/components/taskList --fix",
     "format": "prettier --write ./src",
-    "prepare": "npx husky install",
+    "prepare": "husky install",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
