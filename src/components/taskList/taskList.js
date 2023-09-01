@@ -1,6 +1,6 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
-import Task from '../task/task';
+import { Component } from "react";
+import PropTypes from "prop-types";
+import Task from "../task/task";
 
 class TaskList extends Component {
   static defaultProps = {
@@ -29,13 +29,15 @@ class TaskList extends Component {
     const { toDos, onDeleted, onEditing, onToggleDone } = this.props;
     const elements = toDos.reduce((acc, item) => {
       if (!item.hidden) {
-        acc.push((<Task
-          key={item.id}
-          {...item}
-          onDeleted={() => onDeleted(item.id)}
-          onEditing={onEditing}
-          onToggleDone={() => onToggleDone(item.id)}
-        />))
+        acc.push(
+          <Task
+            key={item.id}
+            {...item}
+            onDeleted={() => onDeleted(item.id)}
+            onEditing={onEditing}
+            onToggleDone={() => onToggleDone(item.id)}
+          />,
+        );
       }
       return acc;
     }, []);

@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import { Component } from "react";
 
-import TaskList from '../taskList';
-import NewTaskForm from '../newTaskForm';
-import Footer from '../footer';
+import TaskList from "../taskList";
+import NewTaskForm from "../newTaskForm";
+import Footer from "../footer";
 
 class App extends Component {
   id = 100;
@@ -18,38 +18,36 @@ class App extends Component {
 
   state = {
     todoData: [
-      this.createToDoItem('Test task 1'),
-      this.createToDoItem('Test task 2'),
-      this.createToDoItem('Test task 3'),
+      this.createToDoItem("Test task 1"),
+      this.createToDoItem("Test task 2"),
+      this.createToDoItem("Test task 3"),
     ],
-    taskState: 'All',
+    taskState: "All",
   };
 
   filterState = (data, changeValue, flag) => {
     const allData = [...data];
-    allData.forEach((el) => { el.hidden = flag ? el[changeValue] : !el[changeValue]; });
+    allData.forEach((el) => {
+      el.hidden = flag ? el[changeValue] : !el[changeValue];
+    });
     return allData;
-  }
+  };
 
   changeState = (event) => {
     const target = event.target.textContent;
     switch (target) {
-      case 'Completed':
-        this.setState(({ todoData }) => (
-          {
-            todoData: this.filterState(todoData, 'done', 0),
-            taskState: 'Completed',
-          }
-        ));
+      case "Completed":
+        this.setState(({ todoData }) => ({
+          todoData: this.filterState(todoData, "done", 0),
+          taskState: "Completed",
+        }));
         break;
 
-      case 'Active':
-        this.setState(({ todoData }) => (
-          {
-            todoData: this.filterState(todoData, 'done', 1),
-            taskState: 'Active',
-          }
-        ));
+      case "Active":
+        this.setState(({ todoData }) => ({
+          todoData: this.filterState(todoData, "done", 1),
+          taskState: "Active",
+        }));
         break;
 
       default:
@@ -60,7 +58,7 @@ class App extends Component {
           });
           return {
             todoData: allData,
-            taskState: 'All',
+            taskState: "All",
           };
         });
         break;
@@ -111,27 +109,27 @@ class App extends Component {
 
   onEditing = (id, label) => {
     this.setState(({ todoData }) => {
-      let newArr = this.toggleProperty(todoData, id, 'editing', label);
+      let newArr = this.toggleProperty(todoData, id, "editing", label);
       const idx = newArr.findIndex((el) => el.id === id);
-      let changeEditing = '';
+      let changeEditing = "";
 
       newArr.forEach((elem, index) => {
         if (index !== idx && elem.editing) {
           changeEditing = elem.id;
         }
-      })
+      });
       if (changeEditing) {
-        newArr = this.toggleProperty(newArr, changeEditing, 'editing');
+        newArr = this.toggleProperty(newArr, changeEditing, "editing");
       }
       return {
         todoData: newArr,
-    }
-});
+      };
+    });
   };
 
   onToggleDone = (id) => {
     this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, 'done'),
+      todoData: this.toggleProperty(todoData, id, "done"),
     }));
   };
 

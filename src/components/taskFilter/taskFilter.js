@@ -1,23 +1,29 @@
 // import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const TaskFilter = ({ changeState, taskState }) => {
   const classNames = {
-    All: '',
-    Active: '',
-    Completed: ''
-  }
-  classNames[taskState] += 'selected';
+    All: "",
+    Active: "",
+    Completed: "",
+  };
+  classNames[taskState] += "selected";
   return (
     <ul className="filters">
       <li>
-        <button className={classNames.All} onClick={changeState}>All</button>
+        <button className={classNames.All} onClick={changeState}>
+          All
+        </button>
       </li>
       <li>
-        <button className={classNames.Active} onClick={changeState}>Active</button>
+        <button className={classNames.Active} onClick={changeState}>
+          Active
+        </button>
       </li>
       <li>
-        <button className={classNames.Completed} onClick={changeState}>Completed</button>
+        <button className={classNames.Completed} onClick={changeState}>
+          Completed
+        </button>
       </li>
     </ul>
   );
@@ -25,7 +31,7 @@ const TaskFilter = ({ changeState, taskState }) => {
 
 TaskFilter.defaultProps = {
   changeState: () => {},
-  taskState: '',
+  taskState: "",
 };
 TaskFilter.propTypes = {
   changeState: PropTypes.func,
