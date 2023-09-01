@@ -1,6 +1,6 @@
 // import React from 'react';
-import PropTypes from "prop-types";
-import TaskFilter from "../taskFilter";
+import PropTypes from 'prop-types';
+import TaskFilter from '../taskFilter';
 
 function Footer({ toDo, taskState, deleteCompleted, changeState }) {
   return (
@@ -17,7 +17,7 @@ Footer.defaultProps = {
   toDo: 0,
   deleteCompleted: () => {},
   changeState: () => {},
-  taskState: "",
+  taskState: '',
 };
 Footer.propTypes = {
   toDo: PropTypes.number,

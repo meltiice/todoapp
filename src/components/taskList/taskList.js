@@ -1,6 +1,6 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import Task from "../task/task";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+import Task from '../task/task';
 
 class TaskList extends Component {
   static defaultProps = {

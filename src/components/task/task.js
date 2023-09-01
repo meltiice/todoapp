@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { formatDistanceToNow } from "date-fns";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns';
 
 export default class Task extends Component {
   static defaultProps = {
     id: Date.now(),
-    label: "",
+    label: '',
     editing: false,
     done: false,
     createdTime: 0,
@@ -46,13 +46,13 @@ export default class Task extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       this.setState({
         label: this.props.label,
       });
       this.props.onEditing.call(this, this.props.id, this.props.label);
     }
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.props.onEditing.call(this, this.props.id, this.state.label);
     }
   };
@@ -68,9 +68,9 @@ export default class Task extends Component {
       onToggleDone,
     } = this.props;
 
-    let classNames = "";
-    classNames += done ? " completed" : "";
-    classNames += editing ? " editing" : "";
+    let classNames = '';
+    classNames += done ? ' completed' : '';
+    classNames += editing ? ' editing' : '';
 
     const date = formatDistanceToNow(new Date().setTime(createdTime), {
       addSuffix: true,
@@ -110,7 +110,7 @@ export default class Task extends Component {
           ref={this.inputRef}
           onFocus={(e) => {
             e.preventDefault();
-            console.log("Focused on input");
+            console.log('Focused on input');
           }}
         ></input>
       </li>

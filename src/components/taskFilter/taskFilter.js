@@ -1,13 +1,13 @@
 // import React from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 const TaskFilter = ({ changeState, taskState }) => {
   const classNames = {
-    All: "",
-    Active: "",
-    Completed: "",
+    All: '',
+    Active: '',
+    Completed: '',
   };
-  classNames[taskState] += "selected";
+  classNames[taskState] += 'selected';
   return (
     <ul className="filters">
       <li>
@@ -31,7 +31,7 @@ const TaskFilter = ({ changeState, taskState }) => {
 
 TaskFilter.defaultProps = {
   changeState: () => {},
-  taskState: "",
+  taskState: '',
 };
 TaskFilter.propTypes = {
   changeState: PropTypes.func,
