@@ -13,6 +13,7 @@ class App extends Component {
     editing: false,
     done: false,
     createdTime: Date.now(),
+    hidden: false,
   });
 
   state = {
@@ -21,45 +22,44 @@ class App extends Component {
       this.createToDoItem('Test task 2'),
       this.createToDoItem('Test task 3'),
     ],
-    hiddenData: [],
     taskState: 'All',
   };
 
+  filterState = (data, changeValue, flag) => {
+    const allData = [...data];
+    allData.forEach((el) => { el.hidden = flag ? el[changeValue] : !el[changeValue]; });
+    return allData;
+  }
+
   changeState = (event) => {
-    const target = event.target.innerHTML;
+    const target = event.target.textContent;
     switch (target) {
       case 'Completed':
-        this.setState(({ todoData, hiddenData }) => {
-          const allData = [...todoData, ...hiddenData];
-          const hidden = allData.filter((el) => el.done === false);
-          const visible = allData.filter((el) => el.done === true);
-          return {
-            todoData: visible,
-            hiddenData: hidden,
+        this.setState(({ todoData }) => (
+          {
+            todoData: this.filterState(todoData, 'done', 0),
             taskState: 'Completed',
-          };
-        });
+          }
+        ));
         break;
 
-      case 'Active': // if (x === 'value2')
-        this.setState(({ todoData, hiddenData }) => {
-          const allData = [...todoData, ...hiddenData];
-          const hidden = allData.filter((el) => el.done === true);
-          const visible = allData.filter((el) => el.done === false);
-          return {
-            todoData: visible,
-            hiddenData: hidden,
+      case 'Active':
+        this.setState(({ todoData }) => (
+          {
+            todoData: this.filterState(todoData, 'done', 1),
             taskState: 'Active',
-          };
-        });
+          }
+        ));
         break;
 
       default:
-        this.setState(({ todoData, hiddenData }) => {
-          const allData = [...todoData, ...hiddenData].sort((a, b) => (a.id > b.id ? 1 : -1),);
+        this.setState(({ todoData }) => {
+          const allData = [...todoData];
+          allData.forEach((el) => {
+            el.hidden = false;
+          });
           return {
             todoData: allData,
-            hiddenData: [],
             taskState: 'All',
           };
         });
@@ -69,8 +69,7 @@ class App extends Component {
 
   deleteItem = (id) => {
     this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((el) => el.id === id);
-      const newArr = [...todoData.slice(0, idx), ...todoData.slice(idx + 1)];
+      const newArr = todoData.filter((el) => el.id !== id);
       return {
         todoData: newArr,
       };
@@ -79,12 +78,14 @@ class App extends Component {
 
   addItem = (text) => {
     const newItem = this.createToDoItem(text);
-    this.setState(({ todoData }) => {
-      const newArr = [...todoData, newItem];
-      return {
-        todoData: newArr,
-      };
-    });
+    if (text) {
+      this.setState(({ todoData }) => {
+        const newArr = [...todoData, newItem];
+        return {
+          todoData: newArr,
+        };
+      });
+    }
   };
 
   toggleProperty = (arr, id, propName, label) => {
@@ -100,20 +101,32 @@ class App extends Component {
   };
 
   deleteCompleted = () => {
-    this.setState(({ todoData, hiddenData }) => {
+    this.setState(({ todoData }) => {
       const newArr = todoData.filter((el) => el.done === false);
-      const newHidden = hiddenData.filter((el) => el.done === false);
       return {
         todoData: newArr,
-        hiddenData: newHidden
       };
     });
   };
 
   onEditing = (id, label) => {
-    this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, 'editing', label),
-    }));
+    this.setState(({ todoData }) => {
+      let newArr = this.toggleProperty(todoData, id, 'editing', label);
+      const idx = newArr.findIndex((el) => el.id === id);
+      let changeEditing = '';
+
+      newArr.forEach((elem, index) => {
+        if (index !== idx && elem.editing) {
+          changeEditing = elem.id;
+        }
+      })
+      if (changeEditing) {
+        newArr = this.toggleProperty(newArr, changeEditing, 'editing');
+      }
+      return {
+        todoData: newArr,
+    }
+});
   };
 
   onToggleDone = (id) => {
@@ -123,10 +136,9 @@ class App extends Component {
   };
 
   render() {
-    const { todoData, hiddenData, taskState } = this.state;
-    const doneCount = todoData.filter((el) => el.done).length
-      + hiddenData.filter((el) => el.done).length;
-    const todoCount = todoData.length + hiddenData.length - doneCount;
+    const { todoData, taskState } = this.state;
+    const doneCount = todoData.filter((el) => el.done).length;
+    const todoCount = todoData.length - doneCount;
     return (
       <section className="main">
         <NewTaskForm onItemAdded={this.addItem} />

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -25,8 +25,17 @@ export default class Task extends Component {
     onToggleDone: PropTypes.func,
   };
 
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+  }
+
   state = {
-    label: this.props.label,
+    label: this.props.label
+  };
+
+  handleClick = () => {
+    this.inputRef.current.focus();
   };
 
   onLabelChange = (e) => {
@@ -37,6 +46,12 @@ export default class Task extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (e.key === 'Escape') {
+      this.setState({
+        label: this.props.label,
+      });
+      this.props.onEditing.call(this, this.props.id, this.props.label);
+    }
     if (e.key === 'Enter') {
       this.props.onEditing.call(this, this.props.id, this.state.label);
     }
@@ -52,29 +67,31 @@ export default class Task extends Component {
       onEditing,
       onToggleDone,
     } = this.props;
+
     let classNames = '';
-    if (done) {
-      classNames += ' completed';
-    }
-    if (editing) {
-      classNames += ' editing';
-    }
+    classNames += done ? ' completed' : '';
+    classNames += editing ? ' editing' : '';
 
     const date = formatDistanceToNow(new Date().setTime(createdTime), {
       addSuffix: true,
       includeSeconds: true,
     });
+
     return (
       <li className={classNames}>
-        <div className="view">
-          <input className="toggle" type="checkbox" />
+        <div className="view" id='five'>
+          <input className="toggle" type="checkbox" checked={done} onChange={onToggleDone}/>
           <label onClick={onToggleDone}>
             <span className="description">{this.state.label}</span>
             <span className="created">created {date}</span>
           </label>
           <button
             className="icon icon-edit"
-            onClick={onEditing.bind(this, id, this.state.label)}
+            onClick={() => {
+              console.log(8);
+              onEditing.call(this, id, this.state.label);
+              this.handleClick.call(this);
+            }}
           ></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
@@ -85,6 +102,11 @@ export default class Task extends Component {
           value={this.state.label}
           onKeyUp={this.onSubmit}
           onChange={this.onLabelChange}
+          ref={this.inputRef}
+          onFocus={(e) => {
+            e.preventDefault();
+            console.log('Focused on input');
+          }}
         ></input>
       </li>
     );

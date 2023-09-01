@@ -27,15 +27,18 @@ class TaskList extends Component {
 
   render() {
     const { toDos, onDeleted, onEditing, onToggleDone } = this.props;
-    const elements = toDos.map((item) => (
-      <Task
-        key={item.id}
-        {...item}
-        onDeleted={() => onDeleted(item.id)}
-        onEditing={onEditing}
-        onToggleDone={() => onToggleDone(item.id)}
-      />
-    ));
+    const elements = toDos.reduce((acc, item) => {
+      if (!item.hidden) {
+        acc.push((<Task
+          key={item.id}
+          {...item}
+          onDeleted={() => onDeleted(item.id)}
+          onEditing={onEditing}
+          onToggleDone={() => onToggleDone(item.id)}
+        />))
+      }
+      return acc;
+    }, []);
     return <ul className="todo-list">{elements}</ul>;
   }
 }

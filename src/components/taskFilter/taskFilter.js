@@ -2,28 +2,22 @@
 import PropTypes from 'prop-types';
 
 const TaskFilter = ({ changeState, taskState }) => {
-  let classAll = '';
-  let classCompleted = '';
-  let classActive = '';
-
-  if (taskState === 'All') {
-    classAll += 'selected';
-  } else if (taskState === 'Completed') {
-    classCompleted += 'selected';
-  } else if (taskState === 'Active') {
-    classActive += 'selected';
+  const classNames = {
+    All: '',
+    Active: '',
+    Completed: ''
   }
-
+  classNames[taskState] += 'selected';
   return (
     <ul className="filters">
       <li>
-        <button className={classAll} onClick={changeState}>All</button>
+        <button className={classNames.All} onClick={changeState}>All</button>
       </li>
       <li>
-        <button className={classActive} onClick={changeState}>Active</button>
+        <button className={classNames.Active} onClick={changeState}>Active</button>
       </li>
       <li>
-        <button className={classCompleted} onClick={changeState}>Completed</button>
+        <button className={classNames.Completed} onClick={changeState}>Completed</button>
       </li>
     </ul>
   );
