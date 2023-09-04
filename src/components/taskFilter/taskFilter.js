@@ -2,29 +2,17 @@
 import PropTypes from 'prop-types';
 
 const TaskFilter = ({ changeState, taskState }) => {
-  const classNames = {
-    All: '',
-    Active: '',
-    Completed: '',
-  };
-  classNames[taskState] += 'selected';
+  const arrayOfNamesForBtns = ['All', 'Active', 'Completed'];
+  const filters = arrayOfNamesForBtns.map((btn) => (
+      <li key ={btn}>
+        <button className={taskState === btn ? 'selected' : ''} onClick={() => changeState(btn)}>
+          {btn}
+        </button>
+      </li>
+    ))
   return (
     <ul className="filters">
-      <li>
-        <button className={classNames.All} onClick={changeState}>
-          All
-        </button>
-      </li>
-      <li>
-        <button className={classNames.Active} onClick={changeState}>
-          Active
-        </button>
-      </li>
-      <li>
-        <button className={classNames.Completed} onClick={changeState}>
-          Completed
-        </button>
-      </li>
+     {filters}
     </ul>
   );
 };

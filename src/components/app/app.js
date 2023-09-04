@@ -33,8 +33,7 @@ class App extends Component {
     return allData;
   };
 
-  changeState = (event) => {
-    const target = event.target.textContent;
+  changeState = (target) => {
     switch (target) {
       case 'Completed':
         this.setState(({ todoData }) => ({
