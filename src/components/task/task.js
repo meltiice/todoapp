@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
+import Timer from '../timer';
 
 export default class Task extends Component {
   static defaultProps = {
@@ -19,10 +20,14 @@ export default class Task extends Component {
     label: PropTypes.string,
     editing: PropTypes.bool,
     done: PropTypes.bool,
+    time: PropTypes.number,
+    play: PropTypes.bool,
     createdTime: PropTypes.number,
     onDeleted: PropTypes.func,
     onEditing: PropTypes.func,
     onToggleDone: PropTypes.func,
+    updateTime: PropTypes.func,
+    deleteTimer: PropTypes.func
   };
 
   constructor(props) {
@@ -32,6 +37,7 @@ export default class Task extends Component {
 
   state = {
     label: this.props.label,
+    time: this.props.time
   };
 
   handleClick = () => {
@@ -63,9 +69,13 @@ export default class Task extends Component {
       editing,
       done,
       createdTime,
+      time,
       onDeleted,
       onEditing,
       onToggleDone,
+      updateTime,
+      deleteTimer,
+      play
     } = this.props;
 
     let classNames = '';
@@ -86,14 +96,14 @@ export default class Task extends Component {
             checked={done}
             onChange={onToggleDone}
           />
-          <label onClick={onToggleDone}>
-            <span className="description">{this.state.label}</span>
-            <span className="created">created {date}</span>
+          <label htmlFor='for'>
+            <span className="title" onClick={onToggleDone}>{this.state.label}</span>
+            <Timer time={time} updateTime={updateTime} play={play} deleteTimer={deleteTimer}/>
+            <span className="created description">created {date}</span>
           </label>
           <button
             className="icon icon-edit"
             onClick={() => {
-              console.log(8);
               onEditing.call(this, id, this.state.label);
               this.handleClick.call(this);
             }}

@@ -7,6 +7,8 @@ import Footer from '../footer';
 class App extends Component {
   id = 100;
 
+  intervals = {};
+
   createToDoItem = (label) => ({
     id: this.id++,
     label,
@@ -14,6 +16,8 @@ class App extends Component {
     done: false,
     createdTime: Date.now(),
     hidden: false,
+    time: 0,
+    play: false
   });
 
   state = {
@@ -24,6 +28,45 @@ class App extends Component {
     ],
     taskState: 'All',
   };
+
+  componentWillUnmount() {
+    console.log('WILL UNMOUNT')
+    this.interval.forEach((int) => clearInterval(int))
+  }
+
+  updateTime = (id) => {
+    const idx = this.state.todoData.findIndex((el) => el.id === id);
+    if (!this.state.todoData[idx].play) {
+      let newInt = setInterval(() => {
+        this.setState(({ todoData }) => {
+          const newTime = todoData[idx].time++;
+          const play = true;
+          const newItem = { ...todoData[idx], newTime, play }
+          const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
+          return {
+            todoData: newArr
+          }
+        })
+      }, 1000)
+      this.intervals[String(this.state.todoData[idx].id)] = newInt;
+    }
+  }
+
+  deleteTimer = (id) => {
+    const idx = this.state.todoData.findIndex((el) => el.id === id);
+    if (this.state.todoData[idx].play) {
+      clearInterval(this.intervals[String(this.state.todoData[idx].id)])
+      delete this.intervals[String(this.state.todoData[idx].id)]
+      this.setState(({ todoData }) => {
+        const play = false;
+        const newItem = { ...todoData[idx], play }
+        const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
+        return {
+          todoData: newArr
+        }
+    })
+  }
+}
 
   filterState = (data, changeValue, flag) => {
     const allData = [...data];
@@ -65,6 +108,7 @@ class App extends Component {
   };
 
   deleteItem = (id) => {
+    this.deleteTimer(id)
     this.setState(({ todoData }) => {
       const newArr = todoData.filter((el) => el.id !== id);
       return {
@@ -98,6 +142,11 @@ class App extends Component {
   };
 
   deleteCompleted = () => {
+    this.state.todoData.forEach((elem) => {
+      if (elem.done) {
+        this.deleteTimer(elem.id)
+      }
+    })
     this.setState(({ todoData }) => {
       const newArr = todoData.filter((el) => el.done === false);
       return {
@@ -145,6 +194,8 @@ class App extends Component {
           onEditing={this.onEditing}
           onToggleDone={this.onToggleDone}
           onItemSave={this.onItemSave}
+          updateTime={this.updateTime}
+          deleteTimer={this.deleteTimer}
         />
         <Footer
           toDo={todoCount}

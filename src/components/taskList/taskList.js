@@ -17,16 +17,18 @@ class TaskList extends Component {
         label: PropTypes.string,
         editing: PropTypes.bool,
         done: PropTypes.bool,
-        createdTime: PropTypes.number,
+        createdTime: PropTypes.number
       }),
     ),
     onDeleted: PropTypes.func,
     onEditing: PropTypes.func,
     onToggleDone: PropTypes.func,
+    updateTime: PropTypes.func,
+    deleteTimer: PropTypes.func
   };
 
   render() {
-    const { toDos, onDeleted, onEditing, onToggleDone } = this.props;
+    const { toDos, onDeleted, onEditing, onToggleDone, updateTime, deleteTimer } = this.props;
     const elements = toDos.reduce((acc, item) => {
       if (!item.hidden) {
         acc.push(
@@ -36,6 +38,8 @@ class TaskList extends Component {
             onDeleted={() => onDeleted(item.id)}
             onEditing={onEditing}
             onToggleDone={() => onToggleDone(item.id)}
+            updateTime={() => updateTime(item.id)}
+            deleteTimer={() => deleteTimer(item.id)}
           />,
         );
       }
