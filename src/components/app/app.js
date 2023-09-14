@@ -36,18 +36,22 @@ class App extends Component {
 
   updateTime = (id) => {
     const idx = this.state.todoData.findIndex((el) => el.id === id);
-    if (!this.state.todoData[idx].play) {
+
+    if (!this.state.todoData[idx].play && this.state.todoData[idx]) {
       let newInt = setInterval(() => {
         this.setState(({ todoData }) => {
-          const newTime = todoData[idx].time++;
+          const idxInt = this.state.todoData.findIndex((el) => el.id === id);
+          let { time } = todoData[idxInt];
           const play = true;
-          const newItem = { ...todoData[idx], newTime, play }
-          const newArr = [...todoData.slice(0, idx), newItem, ...todoData.slice(idx + 1)]
+          time++;
+          const newItem = { ...todoData[idxInt], time, play }
+          const newArr = [...todoData.slice(0, idxInt), newItem, ...todoData.slice(idxInt + 1)]
           return {
             todoData: newArr
           }
         })
       }, 1000)
+
       this.intervals[String(this.state.todoData[idx].id)] = newInt;
     }
   }
@@ -144,9 +148,11 @@ class App extends Component {
   deleteCompleted = () => {
     this.state.todoData.forEach((elem) => {
       if (elem.done) {
+        console.log('delete item completed', elem.id)
         this.deleteTimer(elem.id)
       }
     })
+    console.log(this.intervals)
     this.setState(({ todoData }) => {
       const newArr = todoData.filter((el) => el.done === false);
       return {
