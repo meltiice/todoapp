@@ -15,9 +15,10 @@ class Timer extends Component {
 
    formatTime = (time) => {
       const hours = Math.floor(time / 3600);
-      const minutes = Math.floor(time / 60) ? Math.floor(time / 60) : '00';
+      const minutes = Math.floor(time / 60) - hours * 60 ? Math.floor(time / 60) - hours * 60 : '00';
       const seconds = time % 60 < 10 ? `0${time % 60}` : time % 60;
-      const format = hours ? `${hours}:${minutes}${seconds}` : `${minutes}:${seconds}`
+      console.log(hours, minutes, seconds)
+      const format = hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`
       return format;
    }
 

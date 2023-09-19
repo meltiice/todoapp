@@ -9,14 +9,14 @@ class App extends Component {
 
   intervals = {};
 
-  createToDoItem = (label) => ({
+  createToDoItem = (label, minutes = 0, seconds = 0) => ({
     id: this.id++,
     label,
     editing: false,
     done: false,
     createdTime: Date.now(),
     hidden: false,
-    time: 0,
+    time: minutes * 60 + seconds,
     play: false
   });
 
@@ -29,21 +29,27 @@ class App extends Component {
     taskState: 'All',
   };
 
-  componentWillUnmount() {
-    console.log('WILL UNMOUNT')
-    this.interval.forEach((int) => clearInterval(int))
+  componentDidUpdate() {
+    this.state.todoData.forEach((task) => {
+      if (!task.time) {
+        this.deleteTimer(task.id)
+      }
+    })
   }
 
   updateTime = (id) => {
     const idx = this.state.todoData.findIndex((el) => el.id === id);
 
-    if (!this.state.todoData[idx].play && this.state.todoData[idx]) {
+    if (!this.state.todoData[idx].play && this.state.todoData[idx] && this.state.todoData[idx].time) {
       let newInt = setInterval(() => {
+        console.log('setinterval')
+        const idxInt = this.state.todoData.findIndex((el) => el.id === id);
         this.setState(({ todoData }) => {
-          const idxInt = this.state.todoData.findIndex((el) => el.id === id);
           let { time } = todoData[idxInt];
-          const play = true;
-          time++;
+          const play = Boolean(time);
+          if (play) {
+            time--
+          }
           const newItem = { ...todoData[idxInt], time, play }
           const newArr = [...todoData.slice(0, idxInt), newItem, ...todoData.slice(idxInt + 1)]
           return {
@@ -121,8 +127,8 @@ class App extends Component {
     });
   };
 
-  addItem = (text) => {
-    const newItem = this.createToDoItem(text);
+  addItem = (text, minutes, seconds) => {
+    const newItem = this.createToDoItem(text, minutes, seconds);
     if (text) {
       this.setState(({ todoData }) => {
         const newArr = [...todoData, newItem];

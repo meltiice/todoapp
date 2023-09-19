@@ -59,6 +59,13 @@ body {
 	color: rgba(0, 0, 0, 0.4);
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .todoapp input::-moz-placeholder {
 	font-style: italic;
 	font-weight: 300;
@@ -106,6 +113,9 @@ body {
 	box-sizing: border-box;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
 }
 
 .new-todo, .new-todo-form .new-todo-form__timer {
